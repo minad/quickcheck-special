@@ -1,0 +1,5 @@
+dist
+attic
+.hpc
+.stack*
+stack.yaml
