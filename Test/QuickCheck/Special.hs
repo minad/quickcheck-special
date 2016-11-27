@@ -66,10 +66,10 @@ instance SpecialValues BL.ByteString where
   specialValues = fmap BL.pack specialValues
 
 instance SpecialValues Scientific.Scientific where
-  specialValues = [ fromInteger 0
-                  , fromInteger 1, negate $ fromInteger 1
+  specialValues = [ 0
+                  , 1, negate 1
                   , Scientific.scientific 1 (-1000), negate $ Scientific.scientific 1 (-1000)
-                  , Scientific.scientific 1 (1000), negate $ Scientific.scientific 1 (1000)
+                  , Scientific.scientific 1 1000, negate $ Scientific.scientific 1 1000
                   ]
 
 instance SpecialValues a => SpecialValues [a] where
@@ -113,7 +113,7 @@ instance FloatIEEE Double where
 instance (Arbitrary a, SpecialValues a) => Arbitrary (Special a) where
   shrink = fmap Special . shrink . getSpecial
   arbitrary = fmap Special $ frequency $ list specialValues
-    where list s = (10 * length s, arbitrary) : (fmap (\t -> (1, return t)) s)
+    where list s = (10 * length s, arbitrary) : fmap (\t -> (1, return t)) s
 
 instance CoArbitrary a => CoArbitrary (Special a) where
   coarbitrary = coarbitrary . getSpecial
