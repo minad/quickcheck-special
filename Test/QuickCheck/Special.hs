@@ -1,3 +1,17 @@
+-----------------------------------------------------------------------------
+-- |
+-- Module      :  Test.QuickCheck.Special
+-- Copyright   :  Daniel Mendler (c) 2016,
+-- License     :  MIT (see the file LICENSE)
+--
+-- Maintainer  :  mail@daniel-mendler.de
+-- Stability   :  experimental
+-- Portability :  portable
+--
+-- The standard 'Arbitrary' instances don't generate special values.
+-- This is fixed by this package which provides the newtype 'Special' with an 'Arbitrary' instance.
+-- The special values are given by the 'SpecialValues' typeclass.
+-----------------------------------------------------------
 
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
