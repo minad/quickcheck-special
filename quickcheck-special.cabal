@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           quickcheck-special
-version:        0.1.0.1
+version:        0.1.0.2
 synopsis:       Edge cases and special values for QuickCheck Arbitrary instances
 description:    The standard Arbitrary instances of QuickCheck don't generate special values. This is fixed by this package which provides the newtype Special with an Arbitrary instance. The special values are given by the SpecialValues typeclass.
 category:       Testing
