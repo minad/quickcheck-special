@@ -14,6 +14,7 @@
 -----------------------------------------------------------
 
 {-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Test.QuickCheck.Special (
   Special(..),
@@ -107,10 +108,14 @@ class RealFloat a => FloatIEEE a where
   minNormal :: a
   maxFinite :: a
 
+  default infinity :: a
+  infinity = 1/0
+
+  default nan :: a
+  nan = 0/0
+
 -- echo | gcc -E -dM - | grep _FLT_
 instance FloatIEEE Float where
-  nan = 0/0
-  infinity = 1/0
   epsilon = 1.19209289550781250000e-7
   minDenormal = 1.40129846432481707092e-45
   minNormal = 1.17549435082228750797e-38
@@ -118,8 +123,6 @@ instance FloatIEEE Float where
 
 -- echo | gcc -E -dM - | grep _DBL_
 instance FloatIEEE Double where
-  nan = 0/0
-  infinity = 1/0
   epsilon = 2.22044604925031308085e-16
   minDenormal = 4.94065645841246544177e-324
   minNormal = 2.22507385850720138309e-308
