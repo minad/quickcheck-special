@@ -51,6 +51,7 @@ instance SpecialValues Word16 where specialValues = specialBoundedEnum
 instance SpecialValues Word32 where specialValues = specialBoundedEnum
 instance SpecialValues Word64 where specialValues = specialBoundedEnum
 instance SpecialValues Bool   where specialValues = [True, False]
+instance SpecialValues ()     where specialValues = [()]
 instance SpecialValues Float  where specialValues = specialIEEE
 instance SpecialValues Double where specialValues = specialIEEE
 
