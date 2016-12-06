@@ -137,8 +137,8 @@ instance CoArbitrary a => CoArbitrary (Special a) where
   coarbitrary = coarbitrary . getSpecial
 
 specialIEEE :: FloatIEEE a => [a]
-specialIEEE = nan : list ++ map negate list
-  where list = [0, 1, epsilon, infinity, minDenormal, minNormal, maxFinite]
+specialIEEE = list ++ map negate list
+  where list = [nan, 0, 1, epsilon, infinity, minDenormal, minNormal, maxFinite]
 
 specialInt :: (Num a, Bounded a) => [a]
 specialInt = [0, 1, -1, minBound, maxBound, minBound + 1, maxBound - 1]
