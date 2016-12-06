@@ -24,6 +24,7 @@ module Test.QuickCheck.Special (
 import Data.Int
 import Data.Word
 import Numeric.Natural (Natural)
+import Numeric.IEEE
 import Test.QuickCheck
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BL
@@ -100,34 +101,6 @@ instance (SpecialValues a, SpecialValues b) => SpecialValues (Either a b) where
 instance (SpecialValues a, SpecialValues b) => SpecialValues (a, b) where
   specialValues = zip specialValues specialValues
 
-class RealFloat a => FloatIEEE a where
-  nan :: a
-  infinity :: a
-  epsilon :: a
-  minDenormal :: a
-  minNormal :: a
-  maxFinite :: a
-
-  default infinity :: a
-  infinity = 1/0
-
-  default nan :: a
-  nan = 0/0
-
--- echo | gcc -E -dM - | grep _FLT_
-instance FloatIEEE Float where
-  epsilon = 1.19209289550781250000e-7
-  minDenormal = 1.40129846432481707092e-45
-  minNormal = 1.17549435082228750797e-38
-  maxFinite = 3.40282346638528859812e+38
-
--- echo | gcc -E -dM - | grep _DBL_
-instance FloatIEEE Double where
-  epsilon = 2.22044604925031308085e-16
-  minDenormal = 4.94065645841246544177e-324
-  minNormal = 2.22507385850720138309e-308
-  maxFinite = 1.79769313486231570815e+308
-
 instance (Arbitrary a, SpecialValues a) => Arbitrary (Special a) where
   shrink = fmap Special . shrink . getSpecial
   arbitrary = fmap Special $ frequency $ list specialValues
@@ -136,7 +109,7 @@ instance (Arbitrary a, SpecialValues a) => Arbitrary (Special a) where
 instance CoArbitrary a => CoArbitrary (Special a) where
   coarbitrary = coarbitrary . getSpecial
 
-specialIEEE :: FloatIEEE a => [a]
+specialIEEE :: IEEE a => [a]
 specialIEEE = list ++ map negate list
   where list = [nan, 0, 1, epsilon, infinity, minDenormal, minNormal, maxFinite]
 
