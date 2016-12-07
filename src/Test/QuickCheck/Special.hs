@@ -14,7 +14,6 @@
 -----------------------------------------------------------
 
 {-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Test.QuickCheck.Special (
   Special(..),
