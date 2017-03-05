@@ -15,6 +15,7 @@
 
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE FlexibleInstances #-}
 module Test.QuickCheck.Special (
   Special(..),
   SpecialValues(..),
@@ -22,6 +23,7 @@ module Test.QuickCheck.Special (
 
 import Data.Int
 import Data.Word
+import Data.Ratio
 import Numeric.Natural (Natural)
 import Numeric.IEEE
 import Test.QuickCheck
@@ -65,6 +67,9 @@ instance SpecialValues Integer where
 
 instance SpecialValues Natural where
   specialValues = [ 0, 1, fromIntegral (maxBound :: Word64) + 1 ]
+
+instance SpecialValues Rational where
+  specialValues = [ 0, 1, -1, 0 % 1, - 0 % 1]
 
 instance SpecialValues Char where
   specialValues = specialBoundedEnum ++ "\0\a\b\f\n\r\t\v\'\"\\aä "
