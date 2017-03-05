@@ -1,5 +1,5 @@
 name: quickcheck-special
-version: 0.1.0.3
+version: 0.1.0.4
 synopsis: Edge cases and special values for QuickCheck Arbitrary instances
 description:
   The standard Arbitrary instances of QuickCheck don't generate
