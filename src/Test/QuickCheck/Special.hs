@@ -59,17 +59,17 @@ instance SpecialValues Float  where specialValues = specialIEEE
 instance SpecialValues Double where specialValues = specialIEEE
 
 instance SpecialValues Integer where
-  specialValues = [ 0, 1, -1
+  specialValues = [ 0, 1, -1, 2, -2
                   , fromIntegral (minBound :: Int64)  - 1
                   , fromIntegral (maxBound :: Int64)  + 1
                   , fromIntegral (maxBound :: Word64) + 1
                   ]
 
 instance SpecialValues Natural where
-  specialValues = [ 0, 1, fromIntegral (maxBound :: Word64) + 1 ]
+  specialValues = [ 0, 1, 2, fromIntegral (maxBound :: Word64) + 1 ]
 
 instance SpecialValues Rational where
-  specialValues = [ 0, 1, -1, 0 % 1, - 0 % 1]
+  specialValues = [ 0, 1, -1, 2, -2, 0 % 1, - 0 % 1]
 
 instance SpecialValues Char where
   specialValues = specialBoundedEnum ++ "\0\a\b\f\n\r\t\v\'\"\\aä "
@@ -115,10 +115,22 @@ instance CoArbitrary a => CoArbitrary (Special a) where
 
 specialIEEE :: IEEE a => [a]
 specialIEEE = list ++ map negate list
-  where list = [nan, 0, 1, epsilon, infinity, minDenormal, minNormal, maxFinite]
+  where list = [ nan, 0, 1, epsilon, infinity
+               , minDenormal, succIEEE minDenormal
+               , minNormal, succIEEE minNormal
+               , succIEEE minNormal
+               , maxFinite, predIEEE maxFinite
+               , 0x1000000, predIEEE 0x1000000, succIEEE 0x1000000 -- Integer range representable by Float
+               , 0x20000000000000, predIEEE 0x20000000000000, succIEEE 0x20000000000000 -- Integer range representable by Double
+               , 0x7FFFFFFFFFFFFC00, predIEEE 0x7FFFFFFFFFFFFC00, succIEEE 0x7FFFFFFFFFFFFC00 -- Largest Int64 value representable by Double
+               , 0x8000000000000000, predIEEE 0x8000000000000000, succIEEE 0x8000000000000000 -- Largest Word64 value representable by Float and Double
+               , 0x7000000000000000, predIEEE 0x7000000000000000, succIEEE 0x7000000000000000 -- Largest Int64 value representable by Float
+               , 0x7000000, predIEEE 0x7000000, succIEEE 0x7000000 -- Largest Int32 value representable by Float and Double
+               , 0x8000000, predIEEE 0x8000000, succIEEE 0x8000000 -- Largest Word32 value representable by Float and Double
+               ]
 
 specialInt :: (Num a, Bounded a) => [a]
-specialInt = [0, 1, -1, minBound, maxBound, minBound + 1, maxBound - 1]
+specialInt = [0, 1, -1, 2, -2, minBound, maxBound, minBound + 1, maxBound - 1, minBound + 2, maxBound - 2]
 
 specialBoundedEnum :: (Enum a, Bounded a) => [a]
 specialBoundedEnum = [minBound, maxBound, succ minBound, pred maxBound]
