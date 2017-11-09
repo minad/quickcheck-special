@@ -1,9 +1,9 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.18.1.
 --
 -- see: https://github.com/sol/hpack
 
 name:           quickcheck-special
-version:        0.1.0.5
+version:        0.1.0.6
 synopsis:       Edge cases and special values for QuickCheck Arbitrary instances
 description:    The standard Arbitrary instances of QuickCheck don't generate special values. This is fixed by this package which provides the newtype Special with an Arbitrary instance. The special values are given by the SpecialValues typeclass.
 category:       Testing
@@ -27,15 +27,11 @@ library
       src
   ghc-options: -Wall
   build-depends:
-      base < 6
-    , bytestring >= 0.9 && < 0.11
-    , QuickCheck >= 2.1 && < 2.11
-    , scientific >= 0.2 && < 0.4
-    , text       >= 0.7 && < 1.3
-    , ieee754    >= 0.8 && < 0.9
-  if impl(ghc < 7.10)
-    build-depends:
-        nats >= 1
+      base           < 6
+    , special-values >= 0.1 && < 1.0
+    , QuickCheck     >= 2.1 && < 2.11
   exposed-modules:
       Test.QuickCheck.Special
+  other-modules:
+      Paths_quickcheck_special
   default-language: Haskell2010
